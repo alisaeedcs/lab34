@@ -49,8 +49,8 @@ public:
     
     //DFS
     void dfs(int start) {
-        vector<bool> checked(SIZE, false);
-        stack<int> temp;
+        vector<bool> checked(SIZE, false);  // Track visited nodes
+        stack<int> temp;  // Stack to perform DFS
         temp.push(start);
         cout << "DFS starting from vertex " << start << ":" << endl;
 
@@ -59,10 +59,10 @@ public:
             temp.pop();
 
             if (!checked[i]) {
-                cout << i << " ";
+                cout << i << " ";  // Print the current node
                 checked[i] = true;
 
-                // Push neighbors to stack in reverse order
+                // Push neighbors onto the stack, sorted in reverse order to match expected DFS
                 for (auto it = adjList[i].rbegin(); it != adjList[i].rend(); ++it) {
                     if (!checked[it->first]) {
                         temp.push(it->first);
@@ -70,8 +70,9 @@ public:
                 }
             }
         }
-    cout << "\n";
-    }
+        cout << "\n";
+    }   
+
 
     // bfs
     void bfs(int start) {
