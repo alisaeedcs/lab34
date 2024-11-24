@@ -5,6 +5,7 @@
 #include <queue>
 #include <stack>
 #include <set>
+#include <climits>  // For using INT_MAX
 using namespace std;
 
 const int SIZE = 9;  // 9 airports in the network
@@ -13,7 +14,7 @@ struct Edge {
     int src, dest, weight;  // source, destination, and flight duration (in minutes)
 };
 
-typedef pair<int, int> Pair;  // Creating an alias for a pair of integers
+typedef pair<int, int> Pair;  // Creating an alias for a pair of integers (weight, node)
 
 class Graph {
 public:
@@ -92,6 +93,42 @@ public:
         }
         cout << "========================================\n";
     }
+
+    // Dijkstra's algorithm for finding the shortest path from start
+    void dijkstra(int start) {
+        vector<int> dist(SIZE, INT_MAX);  // Distance array, initialized to infinity
+        dist[start] = 0;
+        priority_queue<Pair, vector<Pair>, greater<Pair>> pq;  // Min-heap priority queue
+        pq.push(make_pair(0, start));  // Push the start node with distance 0
+
+        while (!pq.empty()) {
+            int u = pq.top().second;  // Get the node with the smallest distance
+            pq.pop();
+
+            // Traverse through all the neighbors of the current node u
+            for (auto &neighbor : adjList[u]) {
+                int v = neighbor.first;
+                int weight = neighbor.second;
+
+                // If a shorter path is found, update the distance and push to the queue
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.push(make_pair(dist[v], v));
+                }
+            }
+        }
+
+        // Output the shortest path for each node from the start node
+        cout << "\nShortest path from node " << start << ":\n";
+        for (int i = 0; i < SIZE; i++) {
+            cout << start << " -> " << i << " : ";
+            if (dist[i] == INT_MAX) {
+                cout << "No path\n";
+            } else {
+                cout << dist[i] << " mins\n";
+            }
+        }
+    }
 };
 
 int main() {
@@ -112,6 +149,9 @@ int main() {
 
     // BFS to simulate network service area analysis
     graph.bfs(0);
+
+    // Dijkstra to find the shortest path from node 0
+    graph.dijkstra(0);
 
     return 0;
 }
