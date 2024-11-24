@@ -129,6 +129,44 @@ public:
             }
         }
     }
+
+    // Prim's algorithm to find the Minimum Spanning Tree (MST)
+    void primMST() {
+        vector<int> key(SIZE, INT_MAX);  // To store the minimum weight edge for each vertex
+        vector<int> parent(SIZE, -1);  // To store the parent node for each vertex in the MST
+        vector<bool> inMST(SIZE, false);  // To check if a node is included in the MST
+
+        priority_queue<Pair, vector<Pair>, greater<Pair>> pq;  // Min-heap priority queue
+
+        key[0] = 0;  // Start with node 0
+        pq.push(make_pair(0, 0));  // Push the start node with key 0
+
+        while (!pq.empty()) {
+            int u = pq.top().second;  // Get the node with the smallest key
+            pq.pop();
+
+            inMST[u] = true;  // Mark this node as included in the MST
+
+            // Traverse through all the neighbors of the current node u
+            for (auto &neighbor : adjList[u]) {
+                int v = neighbor.first;
+                int weight = neighbor.second;
+
+                // If the neighbor is not in the MST and the weight is smaller than the current key
+                if (!inMST[v] && weight < key[v]) {
+                    key[v] = weight;
+                    parent[v] = u;
+                    pq.push(make_pair(key[v], v));  // Push the updated key and vertex
+                }
+            }
+        }
+
+        // Output the edges in the MST
+        cout << "\nMinimum Spanning Tree edges:\n";
+        for (int i = 1; i < SIZE; i++) {
+            cout << "Edge from " << parent[i] << " to " << i << " with capacity: " << key[i] << " mins\n";
+        }
+    }
 };
 
 int main() {
@@ -152,6 +190,9 @@ int main() {
 
     // Dijkstra to find the shortest path from node 0
     graph.dijkstra(0);
+
+    // Prim's MST
+    graph.primMST();
 
     return 0;
 }
