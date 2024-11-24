@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <stack>
+#include <set>
 using namespace std;
 
 const int SIZE = 7;
@@ -43,6 +46,32 @@ public:
             cout << endl;
         }
     }
+    
+    //DFS
+    void dfs(int start) {
+        vector<bool> checked(SIZE, false);
+        stack<int> temp;
+        temp.push(start);
+        cout << "DFS starting from vertex " << start << ":" << endl;
+
+        while (!temp.empty()) {
+            int i = temp.top();
+            temp.pop();
+
+            if (!checked[i]) {
+                cout << i << " ";
+                checked[i] = true;
+
+                //then  put the adjacent nodes from teh graph in stack in rvrse so the order is correct
+                for (auto it = adjList[i].rbegin(); it != adjList[i].rend(); it++) {
+                    if (!checked[it->first]) {
+                        temp.push(it->first);
+                    }
+                }
+            }
+        }
+        cout << "\n";
+    }
 };
 
 int main() {
@@ -57,6 +86,9 @@ int main() {
 
     // Prints adjacency list representation of graph
     graph.printGraph();
+
+    //do dfs starting at 0
+    graph.dfs(0);
 
     return 0;
 }
