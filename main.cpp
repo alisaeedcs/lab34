@@ -62,15 +62,39 @@ public:
                 cout << i << " ";
                 checked[i] = true;
 
-                //then  put the adjacent nodes from teh graph in stack in rvrse so the order is correct
-                for (auto it = adjList[i].rbegin(); it != adjList[i].rend(); it++) {
+                // Push neighbors to stack in reverse order
+                for (auto it = adjList[i].rbegin(); it != adjList[i].rend(); ++it) {
                     if (!checked[it->first]) {
                         temp.push(it->first);
                     }
                 }
             }
         }
-        cout << "\n";
+    cout << "\n";
+    }
+
+    // bfs
+    void bfs(int start) {
+        vector<bool> visited(SIZE, false);
+        queue<int> q;
+        q.push(start);
+        visited[start] = true;
+
+        cout << "BFS starting from vertex " << start << ":\n";
+
+        while (!q.empty()) {
+            int v = q.front();
+            q.pop();
+            cout << v << " ";
+
+            for (auto &neighbor : adjList[v]) {
+                if (!visited[neighbor.first]) {
+                    visited[neighbor.first] = true;
+                    q.push(neighbor.first);
+                }
+            }
+        }
+        cout << endl;
     }
 };
 
@@ -89,6 +113,9 @@ int main() {
 
     //do dfs starting at 0
     graph.dfs(0);
+
+    //do bfs starting at 0
+    graph.bfs(0);
 
     return 0;
 }
