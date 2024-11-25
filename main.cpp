@@ -179,20 +179,43 @@ int main() {
     // Create the graph
     Graph graph(edges);
 
-    // Print the adjacency list representation of the network
-    graph.printGraph();
+    int choice;
+    do {
+        // Display menu
+        cout << "Water Distribution Network Menu:\n";
+        cout << "[1] Display water distribution network\n";
+        cout << "[2] Check contaminant spread (BFS)\n";
+        cout << "[3] Plan inspection route  (DFS)\n";
+        cout << "[4] Calculate shortest paths\n";
+        cout << "[5] Find Minimum Spanning Tree\n";
+        cout << "[0] Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    // DFS to simulate flight route trace
-    graph.dfs(0);
-
-    // BFS to simulate network service area analysis
-    graph.bfs(0);
-
-    // Dijkstra to find the shortest path from node 0
-    graph.dijkstra(0);
-
-    // Prim's MST
-    graph.primMST();
+        // Process user's choice
+        switch (choice) {
+            case 1:
+                graph.printGraph();
+                break;
+            case 2:
+                graph.bfs(0);
+                break;
+            case 3:
+                graph.dfs(0);
+                break;
+            case 4:
+                graph.dijkstra(0);
+                break;
+            case 5:
+                graph.primMST();
+                break;
+            case 0:
+                cout << "Exiting program.\n";
+                break;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice != 0);
 
     return 0;
 }
