@@ -1,22 +1,5 @@
-    vector<bool> checked(SIZE, false);  // Track visited nodes
-        stack<int> temp;  // Stack to perform DFS
-        temp.push(start);
-        cout << "DFS starting from vertex " << start << ":" << endl;
-
-        while (!temp.empty()) {
-            int i = temp.top();
-            temp.pop();
-
-            if (!checked[i]) {
-                cout << i << " ";  // Print the current node
-                checked[i] = true;
-
-                // Push neighbors onto the stack, sorted in reverse order to match expected DFS
-                for (auto it = adjList[i].rbegin(); it != adjList[i].rend(); ++it) {
-                    if (!checked[it->first]) {
-                        temp.push(it->first);
-                    }
-                }
-            }
-        }
-        cout << "\n";
+    vector<Edge> edges = {
+        {0, 1, 120}, {0, 2, 180}, {1, 3, 150}, {2, 4, 200}, 
+        {3, 5, 180}, {4, 6, 220}, {5, 7, 140}, {6, 8, 160},
+        {1, 4, 170}, {2, 5, 190}
+    };
